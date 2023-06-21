@@ -1,0 +1,7 @@
+- name: Clonar repositorio
+  hosts: esclavo1
+  tasks:
+    - name: Clonar repositorio
+      git:
+        repo: http://github.com/richifor/ventabus.git
+        dest: ~/git

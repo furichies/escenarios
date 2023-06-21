@@ -1,0 +1,10 @@
+- name: ping y uname
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Ejecutar playbook 'ping.yml'
+      include: ping.yml
+
+    - name: Ejecutar playbook 'uname.yaml'
+      include: uname.yaml

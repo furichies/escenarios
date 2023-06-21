@@ -1,0 +1,36 @@
+esclavos:
+  hosts:
+    esclavo1:
+      ansible_host: 192.168.33.21
+    esclavo2:
+      ansible_host: 192.168.33.22
+    esclavo3:
+      ansible_host: 192.168.33.23
+
+getafe:
+  hosts:
+    central:
+      ansible_host: 192.168.33.20
+    sector3:
+      ansible_host: 192.168.33.22
+aws:
+  hosts:
+    13.38.181.5:
+      ansible_user: ubuntu
+      ansible_ssh_private_key_file: /home/vagrant/claves/clave-paris-1265.pem
+
+    paris1:
+      ansible_user: ubuntu
+      ansible_host: 13.38.181.5
+      ansible_ssh_private_key_file: /home/vagrant/claves/clave-paris-1265.pem
+
+    paris2:
+      ansible_host: 13.39.215.184
+      ansible_user: ec2-user
+      ansible_ssh_private_key_file: /home/vagrant/claves/clave-paris-1265.pem
+leganes:
+  hosts:
+    lega:
+      ansible_host: 192.168.33.21
+      ansible_user: curso
+      ansible_ssh_private_key_file: /home/vagrant/claves/id_rsa

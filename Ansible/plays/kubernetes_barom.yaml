@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: barom
+  template:
+    metadata:
+      labels:
+        app: barom
+    spec:
+      containers:
+      - name: barom
+        image: richifor/barom:v1
+        ports:
+        - containerPort: 7000

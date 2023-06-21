@@ -1,0 +1,60 @@
+#Instalar apache
+sudo apt-get install apache2
+#Agregar a /etc/apache/apache2.conf
+CustomLog /var/log/apache2/access.log combined
+ErrorLog /var/log/apache2/error.log
+#En elk, agregar /etc/logstash/conf.d/apache.conf
+input {
+  tcp {
+    port => 5000
+    type => "apache_access"
+  }
+}
+
+filter {
+  if [type] == "apache_access" {
+    grok {
+      match => { "message" => "%{COMBINEDAPACHELOG}" }
+    }
+    date {
+      match => [ "timestamp" , "dd/MMM/yyyy:HH:mm:ss Z" ]
+    }
+  }
+}
+
+output {
+  elasticsearch {
+    hosts => ["localhost:9200"]
+    index => "apache-%{+YYYY.MM.dd}"
+  }
+}
+#Crear índice en elasticsearch con 
+curl -X PUT "localhost:9200/apache-*?pretty" -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "clientip": {
+        "type": "ip"
+      },
+      "request": {
+        "type": "text"
+      },
+      "response": {
+        "type": "integer"
+      },
+      "bytes": {
+        "type": "long"
+      },
+      "referrer": {
+        "type": "text"
+      },
+      "agent": {
+        "type": "text"
+      }
+    }
+  }
+}
+'

@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "seraphic-port-383914",
+  "private_key_id": "ed0a08a0940a0f9ea849c6405274fcf63e02a5cf",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCeTxgvraabKxgA\nWTLxvSYOfgTTrPrr3F2XpVK88Vk3sBtSSGMPvpFXNezbSAM6WVZuG/963zKaLBJ0\nvjI5OeVB0QlgDCc9Tsxhsm8vWr0DtQCnCzFsKQB1e2LfhLM84hYklYzG7d/IpEpT\nxTWk4bEM/AknT3C3YL//6uEGN/3aDSi5Whh734j/BLYRMbkrE6t4a0bObNpodtEo\nboPr4Un/zcNF+wOWGXtWLzeWJ2aQEMhW4kBaauwvA9HxmegYuQS7EjNULVumTccQ\nX/p+XOfeb+nN98udQBD//+jXI+i9Cin62K46QHagTtDloV18wYr68e8PLNVPgSb7\nh/Ga2QSnAgMBAAECggEAMYXRrZyXiWP2Oqmsv6WpoY/3h5ZN2nnRx24ez196xupu\n6ZMedh7pzYvfgAtrgxXObVyR08i9xi/ySBX1lSRQ3QF8+tBieBHN6uQMVxZ+GYpG\nXXspZ0n+TEIggIa9IVcikSg9ZT+lqVkHrWP8b4twvPydCnCV9K+t8Gt0IGNkpJDK\nCx7fFX9OK16BLa6W2CHJpfUMEpIB42WXBZr+BLii3smELbHUGzpj2sTCbgiQVnO5\nI8FdO81QaAhF6fVSVatCiuih4KPQYnBXXqmjvolW8OYgU8SVtWfE12/42p+WqSH4\nAR5o7By+6kimhFeRwUtt5gNxOXHehiF5bOJKqJ381QKBgQDW6xkntV5NEuLDXedx\nJsPDjDLZ4GDLzw9qMNKHC0L0D8AbnsM8pw1rCAEM7xjOzD3Cu0ixYQs0rjcCBI7D\nHs/KzX7QFF4gjOI1nGHUtvkveLLlwGwkAKAkyX1N/QzIC6pS79iwExWpbdqJq7ki\nd9YE/mkBXeXV8ezShUDgkBtoEwKBgQC8kdlyVbSz9Oo7HzrQ456rdUldFSFMOSYj\n92QAU87iMpqITV5NN5PIXc5m9FBAIbmXWUz2y1civhIr25iuAFDNajLvdHVEzGeL\nJazD8rfOq8n5clWmM2922JekRA4IoLvl3SL+NxRjIhB5FiGRstwv49tFM7hw+j8I\nAa21UhUrnQKBgGqsfGriMfFNi3JvHJ5kIEziPKc6ILFoj/0kSIqxA0WCv9a1wbBM\nNnPGoEbcMlMKuyj5roYkZdx7EGCXBIlCtN6zitsbEPFVHD6B5WkgfKScYyd4j/R6\nvwIjZGeeT4bHi33pAIO8pUbYeN1Wd+js1DTcViBQi/DaSLLhYydTP9czAoGAVOLb\nHisSw4fXAXJXib1NqiWMNwjSCnwXfU1aiQMxOIZLJlydvOjt7966kYIdtiD4aPdc\nPCThPtSNXYznOD0QIshR0ZV9TNEvM2ZsVXEn6TNQIqijgcPZw4hRCzNPlfa1Xw6j\nOAkXdmDZRYj+55W6pRxPkuFrgABG65XF2r/uo8kCgYBfz5FRunNezTxij3E+LwOg\nBeRWBaSBKZbAbSLhiaOoVadgGgPZbSDd/Q9RsJZiC6mvR3ZPshbq9u+j7RIBbbwx\nt2YzYaogoj0uv/NI6TLty+nq7K9vg4F9FvTiVJkX83WKktXeYF/mRvAYlPCSD/y2\ndUk2bm8XFrGk6xqrhtp2/Q==\n-----END PRIVATE KEY-----\n",
+  "client_email": "minikube@seraphic-port-383914.iam.gserviceaccount.com",
+  "client_id": "106939839550968246002",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/minikube%40seraphic-port-383914.iam.gserviceaccount.com"
+}

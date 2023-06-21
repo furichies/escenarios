@@ -1,0 +1,43 @@
+Vagrant.configure("2") do |config|
+  # Máquina kitchen
+  config.vm.define "kitchen" do |kitchen|
+    kitchen.vm.box = "ubuntu/focal64"
+    kitchen.vm.hostname = "kitchen"
+    kitchen.vm.provider "virtualbox" do |vb|
+      vb.name = "kitchen"
+      vb.memory = 4096
+      vb.cpus = 2
+    end
+
+    kitchen.vm.provision "shell", inline: <<-SHELL
+      # Instalación de Chef Server en kitchen
+      curl -LO https://packages.chef.io/files/stable/chef-server/14.0.0/ubuntu/18.04/chef-server-core_14.0.0-1_amd64.deb
+      sudo dpkg -i chef-server-core_14.0.0-1_amd64.deb
+      sudo chef-server-ctl reconfigure
+    SHELL
+  end
+
+  # Máquina cliente1
+  config.vm.define "cliente1" do |cliente1|
+    cliente1.vm.box = "ubuntu/focal64"
+    cliente1.vm.hostname = "cliente1"
+
+    cliente1.vm.provision "shell", inline: <<-SHELL
+      # Instalación del cliente de Chef en cliente1
+      curl -LO https://packages.chef.io/files/stable/chef-workstation/21.9.619/ubuntu/18.04/chef-workstation_21.9.619-1_amd64.deb
+      sudo dpkg -i chef-workstation_21.9.619-1_amd64.deb
+    SHELL
+  end
+
+  # Máquina cliente2
+  config.vm.define "cliente2" do |cliente2|
+    cliente2.vm.box = "ubuntu/focal64"
+    cliente2.vm.hostname = "cliente2"
+
+    cliente2.vm.provision "shell", inline: <<-SHELL
+      # Instalación del cliente de Chef en cliente2
+      curl -LO https://packages.chef.io/files/stable/chef-workstation/21.9.619/ubuntu/18.04/chef-workstation_21.9.619-1_amd64.deb
+      sudo dpkg -i chef-workstation_21.9.619-1_amd64.deb
+    SHELL
+  end
+end

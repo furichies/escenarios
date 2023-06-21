@@ -1,0 +1,10 @@
+-
+  name: máquina
+  hosts: all
+  tasks: 
+    - name: ejecuta uname
+      shell: uname -a
+      register: reg_uname
+    - name: muestra los valores
+      debug:
+        var: reg_uname.stdout

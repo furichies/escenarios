@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  cajero:
+    image: richifor/cajero
+    ports:
+      - 6901:6901
+    volumes:
+      - /tmp/:/srv/instance
+    networks:
+      - cielo
+
+  bus:
+    image: richifor/bus
+    ports:
+      - 7000:7000
+    volumes:
+      - /tmp/:/srv/instance
+    networks:
+      - cielo
+
+  registro:
+    image: richifor/registro
+    ports:
+      - 6900:6900
+    volumes:
+      - /tmp/:/srv/instance
+    networks:
+      - cielo
+
+  tienda:
+    image: richifor/tienda
+    ports:
+      - 8888:8888
+    networks:
+      - cielo
+
+networks:
+  cielo:
+    driver: overlay

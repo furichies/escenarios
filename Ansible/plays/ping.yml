@@ -1,0 +1,6 @@
+-
+  name: prueba de pings
+  hosts: all
+  tasks: 
+    - name: pingeando
+      ping:

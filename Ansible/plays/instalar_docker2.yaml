@@ -1,0 +1,17 @@
+---
+- name: Instalar Docker en Amazon Linux
+  hosts: paris2
+  become: true
+  tasks:
+    - name: Instalar paquetes requeridos
+      dnf:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - docker
+        - docker-compose
+
+    - name: Iniciar servicio Docker
+      service:
+        name: docker
+        state: started

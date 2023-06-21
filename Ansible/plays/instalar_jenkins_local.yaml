@@ -1,0 +1,42 @@
+---
+- name: Instalar Jenkins en Ubuntu 22.04
+  hosts: central
+  become: true
+
+  tasks:
+    - name: Actualizar lista de paquetes
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Instalar OpenJDK 11
+      apt:
+        name: openjdk-11-jdk-headless
+        state: present
+
+    - name: Importar clave GPG de Jenkins
+      apt_key:
+        url: https://pkg.jenkins.io/debian/jenkins.io-2023.key
+        state: present
+
+    - name: Agregar el repositorio de Jenkins
+      apt_repository:
+        repo: deb http://pkg.jenkins.io/debian-stable binary/
+        state: present
+        filename: jenkins
+
+    - name: Actualizar lista de paquetes después de agregar el repositorio de Jenkins
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Instalar Jenkins
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Iniciar y habilitar el servicio de Jenkins
+      service:
+        name: jenkins
+        state: started
+        enabled: yes

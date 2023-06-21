@@ -1,0 +1,45 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # Chef Server
+  config.vm.define "chef-server" do |chef|
+    chef.vm.box = "ubuntu/jammy64"
+    chef.vm.hostname = "chef-server"
+    chef.vm.network "private_network", ip: "192.168.33.10"
+    chef.vm.provider "virtualbox" do |vb|
+      vb.name = "chef-server"
+      vb.memory = 4096
+      vb.cpus = 3
+    end
+    chef.vm.provision "shell", path: "server.sh"
+  end
+
+  # Agent 1
+  config.vm.define "agente1" do |agente1|
+    agente1.vm.box = "ubuntu/jammy64"
+    agente1.vm.hostname = "agente1"
+    agente1.vm.network "private_network", ip: "192.168.33.11"
+    agente1.vm.provider "virtualbox" do |vb|
+      vb.name = "agente1"
+      vb.memory = 2048
+      vb.cpus = 2
+    end
+    agente1.vm.provision "shell", path: "cliente.sh"
+  end
+
+  # Agent 2
+  config.vm.define "agente2" do |agente2|
+    agente2.vm.box = "ubuntu/jammy64"
+    agente2.vm.hostname = "agente2"
+    agente2.vm.network "private_network", ip: "192.168.33.12"
+    agente2.vm.provider "virtualbox" do |vb|
+      vb.name = "agente2"
+      vb.memory = 2048
+      vb.cpus = 2
+    end
+    agente2.vm.provision "shell", path: "cliente.sh"
+  end
+
+end

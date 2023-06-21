@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  cajero:
+    image: venta-cajero
+    ports:
+      - 6901:6901
+    volumes:
+      - ./bds/cajero/:/srv/instance
+    networks:
+      - cielo
+
+  bus:
+    image: venta-bus
+    ports:
+      - 7000:7000
+    volumes:
+      - ./bds/bus/:/srv/instance
+    networks:
+      - cielo
+
+  registro:
+    image: venta-registro
+    ports:
+      - 6900:6900
+    volumes:
+      - ./bds/registro/:/srv/instance
+    networks:
+      - cielo
+
+  tienda:
+    image: venta-tienda
+    ports:
+      - 8888:8888
+    volumes:
+      - ./bds/tienda/:/srv/instance
+    networks:
+      - cielo
+
+networks:
+  cielo:
+    driver: overlay

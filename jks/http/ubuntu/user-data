@@ -1,0 +1,19 @@
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: packer
+    username: packer
+    password: '$6$v402NV1Y6KctmS/l$1JEj46AURclYceaozZjeEH.KXYhUFeEmnAxLw7IPIMcJbhjAA1jjZK2ysyeYedhB690A.GFDyxFTIc6T1drfo.'
+  early-commands:
+    # otherwise packer tries to connect and exceed max attempts:
+    - systemctl stop ssh.service
+    - systemctl stop ssh.socket
+  ssh:
+    install-server: yes
+    allow-pw: yes
+  late-commands:
+      - 'sed -i "s/dhcp4: true/&\n      dhcp-identifier: mac/" /target/etc/netplan/00-installer-config.yaml'
+      - echo 'packer ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/packer
+      # Enable hyper-v daemons only if using hyper-v virtualization
+      - if [ $(virt-what) == "hyperv" ]; then apt-get update && apt-get install -y hyperv-daemons linux-tools-$(uname -r) linux-cloud-tools-$(uname -r) linux-cloud-tools-common cifs-utils && systemctl enable hypervvssd && systemctl enable hypervkvpd && systemctl start hypervvssd && systemctl start hypervkvpd; fi

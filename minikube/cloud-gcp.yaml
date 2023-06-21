@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: barom
+  namespace: cloud
+  labels:
+    app: barom
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: barom
+  template:
+    metadata:
+      labels:
+        app: barom
+    spec:
+      containers:
+        - name: barom
+          image: ricardoinstructorformacion/barometrico
+          ports:
+            - containerPort: 7000

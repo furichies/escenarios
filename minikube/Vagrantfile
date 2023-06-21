@@ -1,0 +1,48 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/jammy64"
+  
+  # Definimos la máquina con Minikube y 4GB de RAM y 3 núcleos
+  config.vm.define "minikube" do |minikube|
+    minikube.vm.hostname = "minikube"
+    minikube.vm.network "private_network", ip: "192.168.33.10"
+    minikube.vm.provider "virtualbox" do |v|
+      v.memory = 4096
+      v.cpus = 3
+    end
+    
+    # Instalamos Docker desde los repositorios de Docker
+    minikube.vm.provision "shell", inline: <<-SHELL
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      sudo apt-get update
+      sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+    SHELL
+    
+    # Instalamos Minikube
+    minikube.vm.provision "shell", inline: <<-SHELL
+      curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+      chmod +x minikube
+      sudo mv minikube /usr/local/bin/
+    SHELL
+  end
+  
+  # Definimos las dos máquinas sin Minikube y con 2GB de RAM y 1 núcleo
+  (1..2).each do |i|
+    config.vm.define "node#{i}" do |node|
+      node.vm.hostname = "node#{i}"
+      node.vm.network "private_network", ip: "192.168.33.#{10+i}"
+      node.vm.provider "virtualbox" do |v|
+        v.memory = 2048
+        v.cpus = 1
+      end
+      
+      # Instalamos Docker desde los repositorios de Docker
+      node.vm.provision "shell", inline: <<-SHELL
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        sudo apt-get update
+        sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+      SHELL
+    end
+  end
+end

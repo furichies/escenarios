@@ -1,0 +1,26 @@
+- name: Desinstalar Docker
+  hosts: esclavos
+  become: true
+  tasks:
+    - name: Detener y deshabilitar el servicio Docker
+      service:
+        name: docker
+        state: stopped
+        enabled: no
+
+    - name: Eliminar paquetes de Docker
+      package:
+        name: "{{ item }}"
+        state: absent
+      loop:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+
+    - name: Eliminar directorios de Docker
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/docker
+        - /etc/docker

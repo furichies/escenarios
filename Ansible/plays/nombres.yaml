@@ -1,0 +1,12 @@
+-
+  name: nombres de hosts
+  hosts: all
+  tasks:
+    - name: extracción de nombres
+      shell: hostname
+      register: host
+    - name: devuelve el ping
+      ping: 
+    - name: muestra nombre
+      debug:
+        var: host.stdout

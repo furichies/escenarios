@@ -1,0 +1,143 @@
+- name: Instalar WordPress en Ubuntu 22.04
+  hosts: esclavo3
+  become: true
+
+  vars:
+    # Variables para la configuración de WordPress
+    db_name: wordpress
+    db_user: wordpressuser
+    db_password: CaM1n0K0y0T3
+    wp_db_host: localhost
+    wp_db_prefix: wp_
+
+  tasks:
+    - name: Actualizar lista de paquetes
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Instalar paquetes necesarios para WordPress
+      apt:
+        name:
+          - apache2
+          - mariadb-server
+          - php
+          - php-mysql
+          - python3-pip
+        state: present
+ 
+    - name: Instalar PyMySQL
+      pip:
+        name: pymysql
+        state: present
+ 
+    - name: Iniciar y habilitar el servicio de Apache
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Iniciar y habilitar el servicio de MariaDB
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+
+    - name: Configurar base de datos para WordPress
+      mysql_db:
+        name: "{{ db_name }}"
+        state: present
+        login_user: root
+        login_password: ""
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+    - name: Crear usuario de base de datos para WordPress
+      mysql_user:
+        name: "{{ db_user }}"
+        password: "{{ db_password }}"
+        login_user: root
+        login_password: ""
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+    - name: Otorgar privilegios al usuario de la base de datos para WordPress
+      mysql_user:
+        name: "{{ db_user }}"
+        priv: "{{ db_name }}.*:ALL"
+        host: "{{ wp_db_host }}"
+        login_user: root
+        login_password: ""
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+    - name: Descargar e instalar WordPress
+      get_url:
+        url: "https://wordpress.org/latest.tar.gz"
+        dest: /tmp/wordpress.tar.gz
+
+    - name: Descomprimir archivo de WordPress
+      unarchive:
+        src: /tmp/wordpress.tar.gz
+        dest: /var/www/html
+        remote_src: yes
+        owner: www-data
+        group: www-data
+
+    - name: Crear fichero para WordPress
+      file:
+        path: /var/www/html/wordpress/wp-config.php
+        state: touch
+        owner: www-data
+        group: www-data
+
+    - name: Configurar archivo wp-config.php
+      lineinfile:
+        path: /var/www/html/wordpress/wp-config.php
+        line: |
+          <?php
+          define( 'DB_NAME', 'wordpress' );
+          define( 'DB_USER', 'wordpressuser' );
+          define( 'DB_PASSWORD', 'CaM1n0K0y0T3' );
+          define( 'DB_HOST', 'localhost' );
+          define( 'DB_CHARSET', 'utf8' );
+          define( 'DB_COLLATE', '' );
+          define( 'AUTH_KEY',         'CaM1n0K0y0T3' );
+          define( 'SECURE_AUTH_KEY',  'CaM1n0K0y0T3' );
+          define( 'LOGGED_IN_KEY',    'CaM1n0K0y0T3' );
+          define( 'NONCE_KEY',        'CaM1n0K0y0T3' );
+          define( 'AUTH_SALT',        'CaM1n0K0y0T3' );
+          define( 'SECURE_AUTH_SALT', 'CaM1n0K0y0T3' );
+          define( 'LOGGED_IN_SALT',   'CaM1n0K0y0T3' );
+          define( 'NONCE_SALT',       'CaM1n0K0y0T3' );
+          $table_prefix = 'wp_';
+          define( 'WP_DEBUG', false );
+          if ( ! defined( 'ABSPATH' ) ) {
+          define( 'ABSPATH', __DIR__ . '/' );
+           }
+          require_once ABSPATH . 'wp-settings.php';
+
+        state: present
+    - name: Crear sitio para WordPress
+      copy:
+        dest: /etc/apache2/sites-available/wordpress.conf
+        content: |
+          <VirtualHost *:80>
+            ServerName wordpress
+            DocumentRoot /var/www/html/wordpress
+            <Directory /var/www/html/wordpress>
+              AllowOverride All
+              Require all granted
+            </Directory>
+            ErrorLog ${APACHE_LOG_DIR}/wordpress_error.log
+            CustomLog ${APACHE_LOG_DIR}/wordpress_access.log combined
+          </VirtualHost>
+
+    - name: Habilitar sitio WordPress
+      command: a2ensite wordpress
+
+    - name: Desactivar default site
+      command: a2dissite 000-default
+ 
+    - name: Reiniciar Apache
+      service:
+        name: apache2
+        state: restarted
+      
